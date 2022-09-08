@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+}
+
+.btn {
+    display: block;
+
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.plusIcon {
+    width: 35px;
+    height: 35px;
+}
