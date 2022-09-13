@@ -1,16 +1,28 @@
 import {Calendar, Header} from "./components/index";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
-
-console.log(dayjs("2022-09-30T21:00:00.000Z"))
+import axios from 'axios';
 
 function App() {
     const [monthAndYear, setMonthAndYear] = useState(() => localStorage.getItem('monthAndYear') ? dayjs(JSON.parse(localStorage.getItem('monthAndYear'))) : dayjs())
-    const [tasks, setTasks] = useState(() => JSON.parse(localStorage.getItem('tasks'))? JSON.parse(localStorage.getItem('tasks')) : []);
+    const [tasks, setTasks] = useState(() => JSON.parse(localStorage.getItem('tasks')) ? JSON.parse(localStorage.getItem('tasks')) : []);
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
         localStorage.setItem('monthAndYear', JSON.stringify(monthAndYear));
-    }, [tasks,monthAndYear])
+    }, [tasks, monthAndYear])
+
+    // На случай если перейдем на REST API
+    // useEffect(() => {
+    //     const getTask = async () => {
+    //         try {
+    //             const result = await axios.get('/task');
+    //             setTasks(result.data)
+    //         } catch (error) {
+    //             throw new Error(error)
+    //         }
+    //     }
+    //     getTask()
+    // }, [])
 
     const handleButtonClick = (e) => {
         const name = e.currentTarget.name;

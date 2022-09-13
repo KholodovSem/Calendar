@@ -10,6 +10,7 @@ import s from "./Form.module.css";
 import dayjs from "dayjs";
 import {nanoid} from "nanoid";
 import {ReactComponent as TrashIcon} from "../../img/trash.svg";
+import axios from "axios";
 
 const initialState = {
     title: "",
@@ -49,6 +50,18 @@ export default function Form({setTasks, toggleModal, title, tasks, taskId}) {
     const handleDelete = () => {
         setTasks(tasks.filter((task) => task.id !== taskId));
         toggleModal();
+
+        // На случай перехода на REST API
+        // const deleteTask = async () => {
+        //     try {
+        //         //Если в ответе возвращается удаленный id таски
+        //         const result = await axios.delete(`/task${taskId}`);
+        //         setTasks(tasks.filter((task) => task.id !== result));
+        //     }catch (error) {
+        //         throw new Error(error)
+        //     }
+        // }
+        // deleteTask()
     };
 
     const handleSubmit = (e) => {
@@ -63,6 +76,18 @@ export default function Form({setTasks, toggleModal, title, tasks, taskId}) {
 
         setTasks((prevState) => [...prevState, state]);
         toggleModal();
+
+        // На случай перехода на REST API
+        // const postTask = async () => {
+        //     try {
+        //         const result = await axios.post('/task', state);
+        //         setTasks(result.data)
+        //     } catch (error) {
+        //         throw new Error(error)
+        //     }
+        // }
+        // postTask()
+
     };
 
     return (
@@ -98,7 +123,7 @@ export default function Form({setTasks, toggleModal, title, tasks, taskId}) {
                     className={s.input}
                     label="Date*"
                     openTo="year"
-                    views={["year", "month", "day" ]}
+                    views={["year", "month", "day"]}
                     value={state.date}
                     onChange={(newValue) => {
                         dispatch({type: "date", payload: newValue});
@@ -116,7 +141,8 @@ export default function Form({setTasks, toggleModal, title, tasks, taskId}) {
                     }}
                 />
             </LocalizationProvider>
-            {taskId && <span className={s.info}>{state.edit ? "Updated at:" : "Created at:"} {state.createOrUpdate}</span>}
+            {taskId &&
+                <span className={s.info}>{state.edit ? "Updated at:" : "Created at:"} {state.createOrUpdate}</span>}
             <div className={s.btnWrapper}>
                 {taskId && (
                     <button type="button" onClick={handleDelete} className={s.deleteBtn}>
@@ -129,7 +155,7 @@ export default function Form({setTasks, toggleModal, title, tasks, taskId}) {
                     disabled={state.title && state.date ? false : true}
                     onClick={() => {
                         dispatch({type: "createOrUpdate"})
-                        if(taskId){
+                        if (taskId) {
                             dispatch({type: "edit"});
                         }
                         dispatch({type: "id", payload: nanoid()});
