@@ -72,6 +72,18 @@ export default function Form({setTasks, toggleModal, title, tasks, taskId}) {
             );
             toggleModal();
             return;
+
+        //Редактирование существующей таски
+        //      const editTask = async (event) => {
+        // try {
+        //     const result = await axios.patch(/task/${event.id}, event);
+        //     return result;
+        // } catch (error) {
+        //     throw new Error(error)
+        // }
+        //          editTask()
+}
+
         }
 
         setTasks((prevState) => [...prevState, state]);
